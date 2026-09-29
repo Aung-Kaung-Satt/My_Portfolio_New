@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { BlinkingSquares } from "./components/BlinkingSquares.tsx";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, type Variants } from "motion/react";
+import Aurora from "./components/Aurora.tsx";
 import { DotField } from "./components/DotField.tsx";
 
 type Language = "en" | "ja";
@@ -18,6 +18,7 @@ export const DATA = {
   en: {
     profile: {
       name: "Aung Kaung Satt",
+      katakanaName: "",
       role: "Software Developer | Desktop & Modern Web Applications | Exploring AI",
       intro:
         "Two years engineering and testing enterprise construction estimating software in Delphi, working daily in Japanese. Passionate about both robust desktop systems and modern web technologies, with an active focus on self-studying React, TypeScript, and AI integrations.",
@@ -26,7 +27,7 @@ export const DATA = {
       links: [
         {
           label: "LinkedIn",
-          url: "https://linkedin.com/in/your-username",
+          url: "https://www.linkedin.com/in/aung-kaung-satt-bb309822b/?isSelfProfile=true",
           note: "Connect on LinkedIn",
           type: "linkedin",
         },
@@ -38,8 +39,8 @@ export const DATA = {
         },
         {
           label: "GitHub",
-          url: "https://github.com/your-username",
-          note: "Replace with your GitHub profile URL",
+          url: "https://github.com/Aung-Kaung-Satt",
+          note: "github.com/Aung-Kaung-Satt",
           type: "github",
         },
       ],
@@ -106,7 +107,7 @@ export const DATA = {
         description:
           "Civil-engineering estimation system module built with Delphi. Automates calculation formulas, processes construction specification sheets, and exports structured templates.",
         tags: ["Delphi", "Excel"],
-        codeUrl: "https://github.com/your-username/delphi-civil-estimation",
+        codeUrl: "https://github.com/Aung-Kaung-Satt/delphi-civil-estimation",
         liveUrl: "https://example.com/project-one",
         instructions: "Edit this card in DATA.en.projects and DATA.ja.projects in App.tsx",
       },
@@ -117,7 +118,7 @@ export const DATA = {
         description:
           "Interactive estimation dashboard connecting desktop calculation principles with a responsive React and Tailwind interface for real-time cost breakdown.",
         tags: ["Delphi", "React", "JavaScript", "Tailwind CSS"],
-        codeUrl: "https://github.com/your-username/project-two",
+        codeUrl: "https://github.com/Aung-Kaung-Satt/project-two",
         liveUrl: "https://example.com/project-two",
         instructions: "Edit this card in DATA.en.projects and DATA.ja.projects in App.tsx",
       },
@@ -184,6 +185,11 @@ export const DATA = {
               issuer: "Japan Educational Exchanges and Services",
             },
             {
+              name: "TOP J Practical Japanese (Intermediate B)",
+              date: "400 / 500",
+              issuer: "The Foundation for International Youth Exchange",
+            },
+            {
               name: "JLPT N3",
               date: "Jan 2024",
               issuer: "Japan Educational Exchanges and Services",
@@ -228,6 +234,7 @@ export const DATA = {
   ja: {
     profile: {
       name: "Aung Kaung Satt",
+      katakanaName: "アウン カウン サット",
       role: "ソフトウェア開発者 | デスクトップ＆Web開発 · AI技術の実践・学習",
       intro:
         "日本の土木積算システム（Delphi）の開発および品質検証に約2年間従事しました。日本語による仕様書の作成や図面の読解、日々のミーティングなど実務をすべて日本語で遂行した経験があります。デスクトップ開発で培った正確な実装力を基盤に、現在はReactやAI技術を積極的に学習し、Webアプリケーション開発に取り組んでいます。",
@@ -236,7 +243,7 @@ export const DATA = {
       links: [
         {
           label: "LinkedIn",
-          url: "https://linkedin.com/in/your-username",
+          url: "https://www.linkedin.com/in/aung-kaung-satt-bb309822b/?isSelfProfile=true",
           note: "LinkedInプロフィール",
           type: "linkedin",
         },
@@ -248,8 +255,8 @@ export const DATA = {
         },
         {
           label: "GitHub",
-          url: "https://github.com/your-username",
-          note: "ご自身のGitHubプロフィールのURLに置き換えてください",
+          url: "https://github.com/Aung-Kaung-Satt",
+          note: "GitHubプロフィール",
           type: "github",
         },
       ],
@@ -316,7 +323,7 @@ export const DATA = {
         description:
           "Delphiで開発された土木建設向け積算システムモジュール。積算基準に基づく複雑な計算式を自動処理し、Excelテンプレートへ正確に出力します。",
         tags: ["Delphi", "Excel"],
-        codeUrl: "https://github.com/your-username/delphi-civil-estimation",
+        codeUrl: "https://github.com/Aung-Kaung-Satt/delphi-civil-estimation",
         liveUrl: "https://example.com/project-one",
         instructions: "App.tsx の DATA.ja.projects でこのカードを編集できます",
       },
@@ -327,7 +334,7 @@ export const DATA = {
         description:
           "Delphiで培った積算ロジックとReact・Tailwind CSSのモダンWeb技術を融合させた、リアルタイム集計と直感的なUIを備えたWebアプリケーション。",
         tags: ["Delphi", "React", "JavaScript", "Tailwind CSS"],
-        codeUrl: "https://github.com/your-username/project-two",
+        codeUrl: "https://github.com/Aung-Kaung-Satt/project-two",
         liveUrl: "https://example.com/project-two",
         instructions: "App.tsx の DATA.ja.projects でこのカードを編集できます",
       },
@@ -392,6 +399,11 @@ export const DATA = {
               name: "日本語能力試験 N2 (JLPT N2)",
               date: "2026年8月",
               issuer: "日本国際教育支援協会 (JEES)",
+            },
+            {
+              name: "TOP J 実用日本語運用能力試験 中級B",
+              date: "400 / 500点",
+              issuer: "実用日本語運用能力試験実施委員会",
             },
             {
               name: "日本語能力試験 N3 (JLPT N3)",
@@ -469,12 +481,43 @@ function SocialIcon({ type, className = "h-4 w-4" }: { type: string; className?:
   );
 }
 
+/**
+ * Modern Staggered Entrance & Subtle Blur-In Variants (Linear / Apple style)
+ */
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const fadeInUpBlur: Variants = {
+  hidden: { opacity: 0, y: 16, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.55,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
 export default function App() {
   const [lang, setLang] = useState<Language>("en");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>("about");
   const [isExperienceExpanded, setIsExperienceExpanded] = useState<boolean>(false);
   const [selectedTag, setSelectedTag] = useState<string>("All");
+
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const isNavClickingRef = useRef<boolean>(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
 
   const currentData = DATA[lang];
 
@@ -497,51 +540,109 @@ export default function App() {
       ? currentData.projects
       : currentData.projects.filter((project) => project.tags.includes(selectedTag));
 
-  // Scrollspy implementation using IntersectionObserver
+  // Automatically scroll mobile horizontal nav bar to center the active item (e.g. language-field)
   useEffect(() => {
-    const sectionElements = currentData.navigation
-      .map((item) => document.getElementById(item.id))
-      .filter((el): el is HTMLElement => el !== null);
+    if (!mobileNavRef.current) return;
+    const container = mobileNavRef.current;
+    const activeTab = container.querySelector<HTMLElement>(`[data-nav-id="${activeSection}"]`);
+    if (activeTab) {
+      const activeRect = activeTab.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const currentScroll = container.scrollLeft;
+      const tabCenter = activeRect.left - containerRect.left + currentScroll + activeRect.width / 2;
+      const targetScrollLeft = tabCenter - containerRect.width / 2;
 
-    if (sectionElements.length === 0) return;
+      container.scrollTo({
+        left: Math.max(0, targetScrollLeft),
+        behavior: "smooth",
+      });
+    }
+  }, [activeSection]);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-        if (visibleEntries.length > 0) {
-          const topEntry = visibleEntries.reduce((prev, curr) =>
-            curr.intersectionRatio > prev.intersectionRatio ? curr : prev
-          );
-          if (topEntry.target.id) {
-            setActiveSection(topEntry.target.id);
-          }
+  // Accurate scrollspy implementation based on actual viewport scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isNavClickingRef.current) return;
+
+      const mainNav = document.querySelector('nav[aria-label="Main navigation"]');
+      const headerHeight = mainNav ? mainNav.getBoundingClientRect().height : 70;
+      const triggerLine = headerHeight + 50;
+
+      // 1. Check if user reached near the bottom of the page
+      // This guarantees the bottom section (e.g. "language-field") activates cleanly
+      const isAtBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
+
+      if (isAtBottom) {
+        const lastSection = currentData.navigation[currentData.navigation.length - 1];
+        if (lastSection) {
+          setActiveSection(lastSection.id);
         }
-      },
-      {
-        rootMargin: "-20% 0px -55% 0px",
-        threshold: [0, 0.2, 0.5, 0.8, 1],
+        return;
       }
-    );
 
-    sectionElements.forEach((el) => observer.observe(el));
+      // If user is at or near the top of the page, ensure "about" is active
+      if (window.scrollY <= 60) {
+        setActiveSection("about");
+        return;
+      }
+
+      // 2. Scan section positions in DOM order
+      const sectionElements = currentData.navigation
+        .map((item) => ({
+          id: item.id,
+          el: document.getElementById(item.id),
+        }))
+        .filter((item): item is { id: string; el: HTMLElement } => item.el !== null);
+
+      let currentActiveId = sectionElements[0]?.id || "about";
+
+      for (const section of sectionElements) {
+        const rect = section.el.getBoundingClientRect();
+        if (rect.top <= triggerLine) {
+          currentActiveId = section.id;
+        } else {
+          break;
+        }
+      }
+
+      setActiveSection(currentActiveId);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
     };
-  }, [lang]);
+  }, [lang, currentData.navigation]);
 
-  // Smooth scroll handler with explicit header offset and prefers-reduced-motion check
+  // Smooth scroll handler with programmatic lock and accurate header offset
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const targetElement = document.getElementById(id);
     if (!targetElement) return;
 
+    // Immediately highlight the clicked section
+    setActiveSection(id);
+    isNavClickingRef.current = true;
+    if (scrollTimeoutRef.current) {
+      window.clearTimeout(scrollTimeoutRef.current);
+    }
+    // Lock scrollspy for 850ms so intermediate sections don't steal the active state while smooth scrolling
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      isNavClickingRef.current = false;
+    }, 850);
+
     // Measure the exact height of the sticky main navigation bar
     const mainNav = document.querySelector('nav[aria-label="Main navigation"]');
     const headerHeight = mainNav ? mainNav.getBoundingClientRect().height : 64;
 
-    // Generous top clearance so the full title and divider are completely visible with comfortable breathing room
-    const clearance = headerHeight + 20;
+    // Generous top clearance so the full title and divider are completely visible
+    const clearance = headerHeight + 16;
 
     const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
     const targetScrollY = Math.max(0, elementTop - clearance);
@@ -553,9 +654,40 @@ export default function App() {
       behavior: prefersReducedMotion ? "auto" : "smooth",
     });
 
-    setActiveSection(id);
     if (window.history.pushState) {
       window.history.pushState(null, "", `#${id}`);
+    }
+  };
+
+  // Scroll directly to the very top div (the nav bar container above the header)
+  const scrollToTop = () => {
+    setActiveSection("about");
+    isNavClickingRef.current = true;
+    if (scrollTimeoutRef.current) {
+      window.clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      isNavClickingRef.current = false;
+    }, 850);
+
+    const topDiv = document.getElementById("site-top");
+    if (topDiv) {
+      topDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    document.documentElement.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    document.body.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+
+    // Also reset desktop left sidebar if it was scrolled internally
+    const sidebar = document.querySelector("header");
+    if (sidebar) {
+      sidebar.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    }
+
+    if (window.history.pushState) {
+      window.history.pushState(null, "", window.location.pathname);
     }
   };
 
@@ -576,16 +708,13 @@ export default function App() {
       }`}
     >
       {/* React Bits Pro Backgrounds: Isolated canvas container */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-0">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         {isDarkMode ? (
-          <BlinkingSquares
-            squareSize={38}
-            gap={6}
-            twinkleSpeed={0.002}
-            minOpacity={0.04}
-            maxOpacity={0.55}
-            squareColor="rgba(129, 140, 248, 0.9)"
-            borderColor="rgba(51, 65, 85, 0.45)"
+          <Aurora
+            colorStops={["#7cff67", "#B497CF", "#5227FF"]}
+            blend={0.5}
+            amplitude={1.0}
+            speed={0.5}
           />
         ) : (
           <DotField
@@ -603,7 +732,10 @@ export default function App() {
       </div>
 
       {/* Always-Visible Sticky Main Navigation Bar */}
-      <nav
+      <motion.nav
+        initial={{ opacity: 0, y: -12, filter: "blur(4px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         aria-label="Main navigation"
         className={`sticky top-0 z-40 w-full border-b backdrop-blur-md transition-colors ${
           isDarkMode
@@ -611,20 +743,22 @@ export default function App() {
             : "border-slate-200/80 bg-white/85 text-slate-800 shadow-xs"
         }`}
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div id="site-top" className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             {/* Left: Brand / Logo */}
             <div className="flex items-center space-x-3">
               <a
-                href="#about"
-                onClick={(e) => handleNavClick(e, "about")}
-                className="flex items-center space-x-2.5 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-lg p-1"
+                href="#site-top"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToTop();
+                }}
+                aria-label={currentData.profile.name}
+                title={currentData.profile.name}
+                className="flex items-center group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-lg p-1 cursor-pointer"
               >
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-white font-bold text-xs shadow-xs group-hover:bg-indigo-500 transition-colors">
                   AK
-                </span>
-                <span className="font-semibold text-sm tracking-tight hidden sm:inline-block">
-                  {currentData.profile.name}
                 </span>
               </a>
             </div>
@@ -747,12 +881,19 @@ export default function App() {
           </div>
 
           {/* Mobile/Tablet Horizontal Scrollable Section Links (< md) */}
-          <div className="md:hidden border-t border-slate-200/50 dark:border-slate-800/50 py-2 overflow-x-auto scrollbar-none">
-            <ul className="flex space-x-1 text-xs whitespace-nowrap">
+          <div
+            ref={mobileNavRef}
+            className="md:hidden border-t border-slate-200/50 dark:border-slate-800/50 py-2 overflow-x-auto scrollbar-none"
+          >
+            <ul className="flex space-x-1 text-xs whitespace-nowrap px-1">
               {currentData.navigation.map((item) => {
                 const isActive = activeSection === item.id;
                 return (
-                  <li key={item.id} className="relative shrink-0">
+                  <li
+                    key={item.id}
+                    data-nav-id={item.id}
+                    className="relative shrink-0"
+                  >
                     <a
                       href={`#${item.id}`}
                       onClick={(e) => handleNavClick(e, item.id)}
@@ -779,34 +920,54 @@ export default function App() {
             </ul>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Main Container */}
       <div className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12">
         <div className="lg:flex lg:justify-between lg:gap-16">
           {/* Desktop Sticky Left Sidebar */}
-          <header className="lg:sticky lg:top-20 lg:flex lg:h-[calc(100vh-5.5rem)] lg:max-h-[calc(100vh-5.5rem)] lg:w-5/12 lg:flex-col lg:justify-between lg:py-6 pt-6 pb-6 px-3 -mx-3 overflow-y-auto scrollbar-none">
-            <div className="space-y-6">
+          <header className="lg:sticky lg:top-20 lg:flex lg:h-[calc(100vh-5.5rem)] lg:max-h-[calc(100vh-5.5rem)] lg:w-5/12 lg:flex-col lg:justify-start lg:py-6 pt-6 pb-6 px-3 -mx-3 overflow-y-auto scrollbar-none">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="space-y-6"
+            >
 
               {/* Identity & Status */}
               <div>
-                <h1
+                <motion.h1
+                  variants={fadeInUpBlur}
                   className={`text-3xl font-bold tracking-tight sm:text-4xl ${
                     isDarkMode ? "text-white" : "text-slate-900"
                   }`}
                 >
                   {currentData.profile.name}
-                </h1>
-                <p
+                </motion.h1>
+                {currentData.profile.katakanaName && (
+                  <motion.p
+                    variants={fadeInUpBlur}
+                    className={`mt-1.5 text-base sm:text-lg font-semibold tracking-wide ${
+                      isDarkMode ? "text-slate-300" : "text-slate-700"
+                    }`}
+                  >
+                    （{currentData.profile.katakanaName}）
+                  </motion.p>
+                )}
+                <motion.p
+                  variants={fadeInUpBlur}
                   className={`mt-2.5 text-base font-medium leading-snug ${
                     isDarkMode ? "text-indigo-400" : "text-indigo-700"
                   }`}
                 >
                   {currentData.profile.role}
-                </p>
+                </motion.p>
 
                 {/* Subtle Availability Status Indicator */}
-                <div className="mt-3.5 flex items-center space-x-2 text-xs">
+                <motion.div
+                  variants={fadeInUpBlur}
+                  className="mt-3.5 flex items-center space-x-2 text-xs"
+                >
                   <span className="h-2 w-2 rounded-lg bg-emerald-500 animate-none shrink-0" />
                   <span
                     className={`font-medium ${
@@ -815,102 +976,83 @@ export default function App() {
                   >
                     {currentData.profile.status}
                   </span>
-                </div>
+                </motion.div>
 
-                <p
+                <motion.p
+                  variants={fadeInUpBlur}
                   className={`mt-4 text-sm leading-relaxed max-w-md ${
                     isDarkMode ? "text-slate-400" : "text-slate-600"
                   }`}
                 >
                   {currentData.profile.intro}
-                </p>
+                </motion.p>
+              </div>
 
-                {/* Direct Connect & Contact Action Buttons with Hover Grow Animation */}
-                <div className="mt-4 flex flex-wrap items-center gap-2.5 py-1">
-                  <motion.a
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    style={{
-                      transformOrigin: "left center",
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                    }}
-                    href={`mailto:${currentData.profile.email}`}
-                    className={`relative z-10 inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border-[1.5px] bg-clip-padding transition-colors shadow-xs hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-                      isDarkMode
-                        ? "bg-indigo-950/70 border-indigo-700 text-indigo-300 hover:bg-indigo-900/80 hover:border-indigo-500 hover:text-white"
-                        : "bg-indigo-50 border-indigo-300 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-400"
+              {/* Profiles & Contact Section */}
+              <motion.div
+                variants={fadeInUpBlur}
+                className={`pt-6 border-t ${
+                  isDarkMode ? "border-slate-800" : "border-slate-200"
+                }`}
+              >
+                <div className="flex flex-col space-y-2">
+                  <span
+                    className={`text-xs font-medium ${
+                      isDarkMode ? "text-slate-400" : "text-slate-600"
                     }`}
                   >
-                    <SocialIcon type="email" className="h-3.5 w-3.5" />
-                    <span>{lang === "en" ? "Email Me" : "メールを送る"}</span>
-                  </motion.a>
-
-                  <motion.a
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    style={{
-                      transformOrigin: "center",
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                    }}
-                    href={currentData.profile.links.find((l) => l.type === "linkedin")?.url || "https://linkedin.com/in/your-username"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`relative z-10 inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border-[1.5px] bg-clip-padding transition-colors shadow-xs hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-                      isDarkMode
-                        ? "bg-indigo-950/70 border-indigo-700 text-indigo-300 hover:bg-indigo-900/80 hover:border-indigo-500 hover:text-white"
-                        : "bg-indigo-50 border-indigo-300 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-400"
-                    }`}
-                  >
-                    <SocialIcon type="linkedin" className="h-3.5 w-3.5" />
-                    <span>LinkedIn</span>
-                  </motion.a>
+                    {lang === "en" ? "Profiles & Contact" : "連絡先・プロフィール"}
+                  </span>
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    {currentData.profile.links.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.url}
+                        target={link.url.startsWith("mailto:") ? undefined : "_blank"}
+                        rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                        title={link.note}
+                        className={`relative inline-flex items-center justify-start px-3.5 py-1.5 overflow-hidden text-xs font-semibold rounded-full group transition-all shadow-xs hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
+                          isDarkMode
+                            ? "bg-slate-900/90 text-indigo-300"
+                            : "bg-white text-indigo-700"
+                        }`}
+                      >
+                        <span
+                          className={`w-32 h-32 rotate-45 translate-x-12 -translate-y-2 absolute left-0 top-0 pointer-events-none ${
+                            isDarkMode ? "bg-indigo-400 opacity-[5%]" : "bg-indigo-500 opacity-[4%]"
+                          }`}
+                        />
+                        <span
+                          className={`absolute top-0 left-0 w-48 h-48 -mt-1 transition-all duration-500 ease-in-out rotate-45 -translate-x-56 -translate-y-24 group-hover:-translate-x-4 pointer-events-none opacity-100 ${
+                            isDarkMode ? "bg-indigo-600" : "bg-indigo-600"
+                          }`}
+                        />
+                        <span className="relative z-10 flex items-center space-x-1.5 transition-colors duration-200 ease-in-out group-hover:text-white">
+                          <SocialIcon type={link.type} className="h-3.5 w-3.5 shrink-0 transition-colors duration-200" />
+                          <span>{link.label}</span>
+                        </span>
+                        <span
+                          className={`absolute inset-0 border-2 rounded-full pointer-events-none transition-colors duration-300 ${
+                            isDarkMode
+                              ? "border-indigo-500/80 group-hover:border-indigo-400"
+                              : "border-indigo-600/80 group-hover:border-indigo-700"
+                          }`}
+                        />
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Desktop External Links Footer */}
-            <div
-              className={`hidden lg:block pt-6 border-t mt-6 ${
-                isDarkMode ? "border-slate-800" : "border-slate-200"
-              }`}
-            >
-              <div className="flex flex-col space-y-2">
-                <span
-                  className={`text-xs font-medium ${
-                    isDarkMode ? "text-slate-400" : "text-slate-600"
-                  }`}
-                >
-                  {lang === "en" ? "Profiles & Contact" : "連絡先・プロフィール"}
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  {currentData.profile.links.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.url}
-                      target={link.url.startsWith("mailto:") ? undefined : "_blank"}
-                      rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                      className={`inline-flex items-center space-x-1.5 text-xs font-medium rounded-lg px-2.5 py-1.5 border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-                        isDarkMode
-                          ? "border-slate-800 bg-slate-900 text-slate-300 hover:text-indigo-400 hover:bg-slate-800"
-                          : "border-slate-200 bg-white text-slate-700 hover:text-indigo-700 hover:bg-slate-100"
-                      }`}
-                      title={link.note}
-                    >
-                      <SocialIcon type={link.type} className="h-3.5 w-3.5 shrink-0" />
-                      <span>{link.label}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </header>
 
           {/* Right Column: Scrolling Content */}
-          <main className="lg:w-7/12 py-8 lg:py-20 space-y-16">
+          <motion.main
+            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.65, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:w-7/12 py-8 lg:py-20 space-y-16"
+          >
             {/* About Section */}
             <section id="about" aria-labelledby="about-heading" className="scroll-mt-36 lg:scroll-mt-12">
               <div className="flex items-center space-x-3 mb-6">
@@ -937,157 +1079,6 @@ export default function App() {
                 {currentData.about.paragraphs.map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
-              </div>
-
-              {/* "Desktop to Web" Transition Highlight Card */}
-              <div
-                className={`mt-8 p-5 border rounded-lg ${
-                  isDarkMode
-                    ? "border-slate-800 bg-slate-900/60"
-                    : "border-slate-200 bg-white shadow-xs"
-                }`}
-              >
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className="h-1.5 w-1.5 rounded-lg bg-indigo-600" />
-                  <h3
-                    className={`text-sm font-semibold ${
-                      isDarkMode ? "text-indigo-400" : "text-indigo-700"
-                    }`}
-                  >
-                    {currentData.about.bridge.title}
-                  </h3>
-                </div>
-                <p
-                  className={`text-xs mb-4 ${
-                    isDarkMode ? "text-slate-400" : "text-slate-600"
-                  }`}
-                >
-                  {currentData.about.bridge.description}
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                  <div
-                    className={`p-3.5 border rounded-lg ${
-                      isDarkMode
-                        ? "border-slate-800 bg-slate-900"
-                        : "border-slate-200/80 bg-slate-50"
-                    }`}
-                  >
-                    <h4
-                      className={`font-semibold mb-2 ${
-                        isDarkMode ? "text-slate-200" : "text-slate-800"
-                      }`}
-                    >
-                      {currentData.about.bridge.desktopTitle}
-                    </h4>
-                    <ul className="space-y-1.5">
-                      {currentData.about.bridge.desktopItems.map((item, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="mr-1.5 text-indigo-500">·</span>
-                          <span className={isDarkMode ? "text-slate-400" : "text-slate-600"}>
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div
-                    className={`p-3.5 border rounded-lg ${
-                      isDarkMode
-                        ? "border-slate-800 bg-slate-900"
-                        : "border-slate-200/80 bg-slate-50"
-                    }`}
-                  >
-                    <h4
-                      className={`font-semibold mb-2 ${
-                        isDarkMode ? "text-slate-200" : "text-slate-800"
-                      }`}
-                    >
-                      {currentData.about.bridge.webTitle}
-                    </h4>
-                    <ul className="space-y-1.5">
-                      {currentData.about.bridge.webItems.map((item, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="mr-1.5 text-indigo-500">·</span>
-                          <span className={isDarkMode ? "text-slate-400" : "text-slate-600"}>
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Connect Row with Hover Scale Buttons */}
-              <div
-                className={`mt-6 p-4 border rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                  isDarkMode
-                    ? "border-slate-800 bg-slate-900/60"
-                    : "border-slate-200/90 bg-slate-50/80"
-                }`}
-              >
-                <div>
-                  <h4
-                    className={`text-xs font-semibold uppercase tracking-wider ${
-                      isDarkMode ? "text-slate-300" : "text-slate-700"
-                    }`}
-                  >
-                    {lang === "en" ? "Let's Connect" : "お問い合わせ・連絡先"}
-                  </h4>
-                  <p
-                    className={`text-xs mt-0.5 ${
-                      isDarkMode ? "text-slate-400" : "text-slate-500"
-                    }`}
-                  >
-                    {lang === "en"
-                      ? "Feel free to reach out for opportunities or technical discussion."
-                      : "お仕事のご相談やカジュアルなメッセージはお気軽にどうぞ。"}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-2 shrink-0 py-1">
-                  <motion.a
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    style={{
-                      transformOrigin: "left center",
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                    }}
-                    href={`mailto:${currentData.profile.email}`}
-                    className={`relative z-10 inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border-[1.5px] bg-clip-padding transition-colors shadow-xs hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-                      isDarkMode
-                        ? "bg-indigo-950/70 border-indigo-700 text-indigo-300 hover:bg-indigo-900/80 hover:border-indigo-500 hover:text-white"
-                        : "bg-indigo-50 border-indigo-300 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-400"
-                    }`}
-                  >
-                    <SocialIcon type="email" className="h-3.5 w-3.5" />
-                    <span>{lang === "en" ? "Email Me" : "メールを送る"}</span>
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    style={{
-                      transformOrigin: "center",
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                    }}
-                    href={currentData.profile.links.find((l) => l.type === "linkedin")?.url || "https://linkedin.com/in/your-username"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`relative z-10 inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border-[1.5px] bg-clip-padding transition-colors shadow-xs hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
-                      isDarkMode
-                        ? "bg-indigo-950/70 border-indigo-700 text-indigo-300 hover:bg-indigo-900/80 hover:border-indigo-500 hover:text-white"
-                        : "bg-indigo-50 border-indigo-300 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-400"
-                    }`}
-                  >
-                    <SocialIcon type="linkedin" className="h-3.5 w-3.5" />
-                    <span>LinkedIn</span>
-                  </motion.a>
-                </div>
               </div>
             </section>
 
@@ -1771,7 +1762,7 @@ export default function App() {
                           >
                             {currentData.languageField.relatedCertificationsLabel}
                           </span>
-                          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                             {langItem.certifications.map((cert, certIdx) => (
                               <li
                                 key={certIdx}
@@ -1817,20 +1808,93 @@ export default function App() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => {
-                      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-                      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-                    }}
-                    className={`inline-flex items-center hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 rounded-lg p-0.5 ${
-                      isDarkMode ? "hover:text-indigo-400" : "hover:text-indigo-700"
+                    onClick={scrollToTop}
+                    aria-label={lang === "en" ? "Back to top" : "ページ上部へ"}
+                    className={`group relative overflow-hidden bg-transparent cursor-pointer transition-colors duration-250 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-[104px] sm:w-[110px] lg:w-[126px] h-[38px] flex items-center shrink-0 before:content-[''] before:absolute before:h-[2px] before:bottom-0 before:left-0 before:w-full before:scale-x-0 before:origin-bottom-right before:bg-current before:transition-transform before:duration-250 before:ease-out hover:before:scale-x-100 hover:before:origin-bottom-left ${
+                      isDarkMode
+                        ? "text-indigo-400 hover:text-indigo-300"
+                        : "text-indigo-600 hover:text-indigo-800"
                     }`}
                   >
-                    ↑ {lang === "en" ? "Back to top" : "ページ上部へ"}
+                    {/* Primary text layer */}
+                    <div className="absolute inset-0 flex items-center pr-4 sm:pr-4 lg:pr-5 font-semibold text-xs sm:text-sm tracking-tight pointer-events-none select-none">
+                      {lang === "en" ? (
+                        <>
+                          <span className="inline-block transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-hover:-translate-y-7 group-hover:opacity-0 delay-[0ms]">
+                            Back
+                          </span>
+                          <span className="inline-block ml-1 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-hover:-translate-y-7 group-hover:opacity-0 delay-[50ms]">
+                            to
+                          </span>
+                          <span className="inline-block ml-1 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-hover:-translate-y-7 group-hover:opacity-0 delay-[100ms]">
+                            top
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="inline-block transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-hover:-translate-y-7 group-hover:opacity-0 delay-[0ms]">
+                            ページ
+                          </span>
+                          <span className="inline-block ml-0.5 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-hover:-translate-y-7 group-hover:opacity-0 delay-[50ms]">
+                            上部
+                          </span>
+                          <span className="inline-block ml-0.5 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] group-hover:-translate-y-7 group-hover:opacity-0 delay-[100ms]">
+                            へ
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Clone text layer (slides in from bottom) */}
+                    <div className="absolute inset-0 flex items-center pr-4 sm:pr-4 lg:pr-5 font-semibold text-xs sm:text-sm tracking-tight pointer-events-none select-none">
+                      {lang === "en" ? (
+                        <>
+                          <span className="inline-block translate-y-7 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] delay-[100ms]">
+                            Back
+                          </span>
+                          <span className="inline-block ml-1 translate-y-7 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] delay-[150ms]">
+                            to
+                          </span>
+                          <span className="inline-block ml-1 translate-y-7 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] delay-[200ms]">
+                            top
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="inline-block translate-y-7 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] delay-[100ms]">
+                            ページ
+                          </span>
+                          <span className="inline-block ml-0.5 translate-y-7 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] delay-[150ms]">
+                            上部
+                          </span>
+                          <span className="inline-block ml-0.5 translate-y-7 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 ease-[cubic-bezier(0.215,0.61,0.355,1)] delay-[200ms]">
+                            へ
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Arrow icon that rotates to point straight up on hover */}
+                    <svg
+                      strokeWidth="2.5"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="absolute right-0.5 sm:right-1 top-1/2 -translate-y-1/2 w-4 h-4 transition-transform duration-250 ease-out -rotate-45 group-hover:-rotate-90 pointer-events-none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </button>
                 </div>
               </div>
             </footer>
-          </main>
+          </motion.main>
         </div>
       </div>
     </div>
