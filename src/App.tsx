@@ -1762,18 +1762,39 @@ export default function App() {
                           >
                             {currentData.languageField.relatedCertificationsLabel}
                           </span>
-                          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                          <ul className="grid grid-cols-1 gap-2.5">
                             {langItem.certifications.map((cert, certIdx) => (
                               <li
                                 key={certIdx}
-                                className={`flex items-center justify-between text-xs p-2 rounded-md border ${
+                                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4 text-xs sm:text-sm p-3 rounded-md border transition-colors ${
                                   isDarkMode
                                     ? "bg-slate-950/70 border-slate-800 text-slate-200"
                                     : "bg-slate-50 border-slate-200/80 text-slate-800"
                                 }`}
                               >
-                                <span className="font-medium truncate mr-2">{cert.name}</span>
-                                <time className="text-[11px] font-mono text-slate-400 shrink-0">
+                                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                                  <span
+                                    className={`font-semibold ${
+                                      isDarkMode ? "text-slate-100" : "text-slate-900"
+                                    }`}
+                                  >
+                                    {cert.name}
+                                  </span>
+                                  {cert.issuer && (
+                                    <span
+                                      className={`text-xs ${
+                                        isDarkMode ? "text-slate-400" : "text-slate-500"
+                                      }`}
+                                    >
+                                      ({cert.issuer})
+                                    </span>
+                                  )}
+                                </div>
+                                <time
+                                  className={`text-xs font-mono shrink-0 font-medium tabular-nums ${
+                                    isDarkMode ? "text-indigo-400" : "text-indigo-600"
+                                  }`}
+                                >
                                   {cert.date}
                                 </time>
                               </li>
