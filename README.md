@@ -22,6 +22,8 @@ http://localhost:3000
 ```
 (or the port shown in your terminal, typically `http://localhost:5173` or `http://localhost:3000`).
 
+
+
 ## 💻 Tech Stack
 - **Framework**: React 19 + TypeScript
 - **Bundler**: Vite 6 (Stable LTS)
