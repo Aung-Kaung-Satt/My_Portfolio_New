@@ -15,15 +15,15 @@ export function ProjectCard({
   codeLabel,
   liveLabel,
 }: ProjectCardProps) {
-  // Check if both the badge span and tag span contain "Delphi" (Delphi condition)
-  const hasDelphiInBadge = /delphi/i.test(project.badge);
-  const hasDelphiInTag = project.tags.some((tag) => /delphi/i.test(tag));
-  const isDelphiCondition =
-    hasDelphiInBadge &&
-    hasDelphiInTag &&
+  // Check if both the badge span and tag span indicate a proprietary desktop system (Java/C#)
+  const hasDesktopLangInBadge = /(java|c#|delphi)/i.test(project.badge);
+  const hasDesktopLangInTag = project.tags.some((tag) => /(java|c#|delphi)/i.test(tag));
+  const isDesktopProprietaryCondition =
+    hasDesktopLangInBadge &&
+    hasDesktopLangInTag &&
     (/desktop|デスクトップ/i.test(project.badge) || !/web/i.test(project.badge));
 
-  const shouldShowLinks = !isDelphiCondition && Boolean(project.codeUrl || project.liveUrl);
+  const shouldShowLinks = !isDesktopProprietaryCondition && Boolean(project.codeUrl || project.liveUrl);
 
   return (
     <motion.article

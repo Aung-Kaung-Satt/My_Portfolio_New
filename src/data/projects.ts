@@ -5,10 +5,10 @@ export const projectsData: Record<"en" | "ja", ProjectItem[]> = {
     {
       id: "project-1",
       title: "Civil Construction Estimating System",
-      badge: "Desktop & Delphi",
+      badge: "Desktop · Java & C#",
       description:
-        "Civil-engineering estimation system module built with Delphi. Automates calculation formulas, processes construction specification sheets, and exports structured templates.",
-      tags: ["Delphi", "Excel"],
+        "Civil-engineering estimation system module built with Java and C#. Automates calculation formulas, processes construction specification sheets, and exports structured templates.",
+      tags: ["Java", "C#", "Excel"],
       codeUrl: "",
       liveUrl: "",
       instructions: "Edit this card in DATA.en.projects and DATA.ja.projects in App.tsx",
@@ -29,10 +29,10 @@ export const projectsData: Record<"en" | "ja", ProjectItem[]> = {
     {
       id: "project-1",
       title: "土木積算・自動計算システム",
-      badge: "デスクトップ・Delphi",
+      badge: "デスクトップ · Java & C#",
       description:
-        "Delphiで開発された土木建設向け積算システムモジュール。積算基準に基づく複雑な計算式を自動処理し、Excelテンプレートへ正確に出力します。",
-      tags: ["Delphi", "Excel"],
+        "JavaおよびC#で開発された土木建設向け積算システムモジュール。積算基準に基づく複雑な計算式を自動処理し、Excelテンプレートへ正確に出力します。",
+      tags: ["Java", "C#", "Excel"],
       codeUrl: "",
       liveUrl: "",
       instructions: "App.tsx の DATA.ja.projects でこのカードを編集できます",

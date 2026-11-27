@@ -6,6 +6,15 @@ export const itFieldData: Record<"en" | "ja", ITFieldData> = {
     subtitle: "Professional certifications in software engineering, frontend development, and computer science fundamentals.",
     certifications: [
       {
+        name: "Programming in Python",
+        issuer: "Meta (Coursera)",
+        date: "Sep 2026",
+        badge: "Python & Backend",
+        skills: ["Python", "Object-Oriented Programming", "Data Structures", "Testing & TDD", "Modules & Packages"],
+        url: "https://coursera.org/verify/73USATHD1GMJ",
+        urlLabel: "Credential",
+      },
+      {
         name: "Meta Front-End Developer Professional Certificate",
         issuer: "Meta (Coursera)",
         date: "Aug 2024",
@@ -34,6 +43,15 @@ export const itFieldData: Record<"en" | "ja", ITFieldData> = {
     title: "IT分野・認定資格",
     subtitle: "ソフトウェア開発および情報工学の基礎知識を証明する認定資格です。",
     certifications: [
+      {
+        name: "Programming in Python（Python プログラミング）",
+        issuer: "Meta (Coursera)",
+        date: "2026年9月",
+        badge: "Python・バックエンド",
+        skills: ["Python", "オブジェクト指向 (OOP)", "データ構造", "単体テスト・TDD", "モジュール設計"],
+        url: "https://coursera.org/verify/73USATHD1GMJ",
+        urlLabel: "認証",
+      },
       {
         name: "Meta フロントエンド開発者 プロフェッショナル認定証",
         issuer: "Meta (Coursera)",

@@ -12,7 +12,7 @@ export const skillsData: Record<"en" | "ja", SkillCategory[]> = {
     },
     {
       category: "Desktop & Other Languages",
-      items: ["Delphi", "Python", "Java"],
+      items: ["Java", "C#", "Python"],
     },
     {
       category: "Tools & Systems",
@@ -30,7 +30,7 @@ export const skillsData: Record<"en" | "ja", SkillCategory[]> = {
     },
     {
       category: "デスクトップ・その他言語",
-      items: ["Delphi", "Python", "Java"],
+      items: ["Java", "C#", "Python"],
     },
     {
       category: "ツール・開発環境",

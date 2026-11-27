@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Aurora from "./components/Aurora.tsx";
 import { DotField } from "./components/DotField.tsx";
 import { DATA, Language } from "./data";
@@ -289,6 +290,7 @@ export default function App() {
           </motion.main>
         </div>
       </div>
+      <SpeedInsights />
     </div>
   );
 }
